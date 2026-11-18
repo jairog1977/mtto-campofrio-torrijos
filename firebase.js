@@ -21,7 +21,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
 
 window.db = db;
@@ -30,6 +29,10 @@ window.addDoc = addDoc;
 window.getDocs = getDocs;
 window.updateDoc = updateDoc;
 window.doc = doc;
+
+/* ==========================
+   PRUEBA DE ESCRITURA
+========================== */
 
 window.testFirebase = async function(){
 
@@ -44,6 +47,10 @@ window.testFirebase = async function(){
     alert("✅ Documento guardado en Firestore");
 
 };
+
+/* ==========================
+   PRUEBA DE LECTURA
+========================== */
 
 window.readFirestore = async function(){
 
@@ -73,6 +80,10 @@ window.readFirestore = async function(){
     );
 
 };
+
+/* ==========================
+   GUARDAR TRABAJO
+========================== */
 
 window.saveTrabajoFirebase =
 async function(
