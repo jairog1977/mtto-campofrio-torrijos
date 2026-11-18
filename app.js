@@ -27,15 +27,19 @@ function renderPrev(){preview.innerHTML='<h4>Vista previa</h4>';previewFiles.for
 async function saveTask(){
 
     if(!db.trabajos[currentTech]){
-        db.trabajos[currentTech]=[];
+        db.trabajos[currentTech] = [];
     }
 
-    db.trabajos[currentTech].unshift({
+    const nuevaTarea = {
         titulo: tit.value,
         desc: des.value,
         estado: 'Pendiente',
         adjuntos: previewFiles
-    });
+    };
+
+    db.trabajos[currentTech].unshift(
+        nuevaTarea
+    );
 
     save();
 
@@ -48,7 +52,7 @@ async function saveTask(){
         );
 
         console.log(
-            "Trabajo guardado en Firebase"
+            "Trabajo guardado en Firestore"
         );
 
     }catch(error){
@@ -64,6 +68,7 @@ async function saveTask(){
         currentDep,
         currentTech
     );
+}
 }function finish(i){let t=db.trabajos[currentTech][i];t.estado='Finalizada';t.fechaFin=new Date().toLocaleString('es-ES');save();openTech(currentDep,currentTech);} 
 function sendWhatsapp(){
 
