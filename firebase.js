@@ -30,6 +30,7 @@ window.addDoc = addDoc;
 window.getDocs = getDocs;
 window.updateDoc = updateDoc;
 window.doc = doc;
+
 window.testFirebase = async function(){
 
     const pruebaRef =
@@ -41,5 +42,32 @@ window.testFirebase = async function(){
     });
 
     alert("✅ Documento guardado en Firestore");
+
+}
+
+window.readFirestore = async function(){
+
+    const snapshot =
+        await getDocs(
+            collection(db,"trabajos")
+        );
+
+    let resultado = "";
+
+    snapshot.forEach(doc => {
+
+        const data = doc.data();
+
+        resultado +=
+            data.tecnico +
+            " | " +
+            data.titulo +
+            " | " +
+            data.estado +
+            "\\n";
+
+    });
+
+    alert(resultado || "No hay trabajos");
 
 }
