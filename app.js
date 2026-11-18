@@ -72,7 +72,6 @@ async function saveTask(){
         currentDep,
         currentTech
     );
-}
 }function finish(i){let t=db.trabajos[currentTech][i];t.estado='Finalizada';t.fechaFin=new Date().toLocaleString('es-ES');save();openTech(currentDep,currentTech);} 
 function sendWhatsapp(){
 
