@@ -24,50 +24,23 @@ function home(){content.innerHTML='<div class=card><h1>Mtto. Campofrio Torrijos<
 function openTech(dep,tec){currentTech=tec;currentDep=dep;let tel=(db.tecnicos[tec]||{}).telefono||'';let tareas=db.trabajos[tec]||[];let h=`<h1>${tec}</h1><div class=card><b>Departamento:</b> ${dep}<br>📱 ${tel||'Sin teléfono'}`;if(tel&&admin){h+=`<br><button onclick="sendWhatsapp()">💬 WhatsApp</button>`;}h+='</div>';tareas.forEach((t,i)=>{h+=`<div class='card ${t.estado==='Finalizada'?'fin':'pend'}'><h3>${t.titulo}</h3><p>${t.desc}</p><p>${t.estado}</p>`;if(t.fechaFin)h+='<p>'+t.fechaFin+'</p>';(t.adjuntos||[]).forEach(a=>h+=`<img class=thumb src='${a.data}'>`);if(t.estado==='Pendiente')h+=`<button onclick='finish(${i})'>✅ Marcar como finalizada</button>`;h+='</div>'});if(admin){h+=`<div class=card><input id=tel placeholder='Telefono tecnico' value='${tel}'><button onclick='savePhone()'>Guardar teléfono</button></div><div class=card><input id=tit placeholder='Título'><textarea id=des placeholder='Descripción'></textarea><input type=file id=files multiple accept='image/*'><div id=preview></div><button onclick='saveTask()'>Guardar trabajo</button></div>`;}content.innerHTML=h;if(admin){files.onchange=previewSel;}}
 function savePhone(){db.tecnicos[currentTech]={telefono:tel.value};save();openTech(currentDep,currentTech);}function previewSel(e){previewFiles=[];[...e.target.files].forEach(f=>{let r=new FileReader();r.onload=v=>{previewFiles.push({data:v.target.result});renderPrev();};r.readAsDataURL(f);});}
 function renderPrev(){preview.innerHTML='<h4>Vista previa</h4>';previewFiles.forEach((f,i)=>preview.innerHTML+=`<div><img width=80 src='${f.data}'> <button onclick='removePrev(${i})'>🗑️ Quitar</button></div>`);}function removePrev(i){previewFiles.splice(i,1);renderPrev();}
+function saveTask(){if(!db.trabajos[currentTech])db.trabajos[currentTech]=[];db.trabajos[currentTech].unshift({titulo:tit.value,desc:des.value,estado:'Pendiente',adjuntos:previewFiles});save();openTech(currentDep,currentTech);}function finish(i){let t=db.trabajos[currentTech][i];t.estado='Finalizada';t.fechaFin=new Date().toLocaleString('es-ES');save();openTech(currentDep,currentTech);} 
 async function saveTask(){
 
     if(!db.trabajos[currentTech]){
-        db.trabajos[currentTech] = [];
+        db.trabajos[currentTech]=[];
     }
 
-    const nuevaTarea = {
+    db.trabajos[currentTech].unshift({
         titulo: tit.value,
         desc: des.value,
         estado: 'Pendiente',
         adjuntos: previewFiles
-    };
-
-    db.trabajos[currentTech].unshift(
-        nuevaTarea
-    );
+    });
 
     save();
 
     try{
-try{
-
-    alert("Voy a guardar en Firebase");
-
-    await saveTrabajoFirebase(
-        currentTech,
-        tit.value,
-        des.value
-    );
-
-    console.log(
-        "Trabajo guardado en Firestore"
-    );
-
-}catch(error){
-
-    console.error(
-        "Error Firebase:",
-        error
-    );
-
-    alert(error);
-
-}
 
         await saveTrabajoFirebase(
             currentTech,
@@ -76,7 +49,7 @@ try{
         );
 
         console.log(
-            "Trabajo guardado en Firestore"
+            "Trabajo guardado en Firebase"
         );
 
     }catch(error){
@@ -92,49 +65,7 @@ try{
         currentDep,
         currentTech
     );
-}
 }function finish(i){let t=db.trabajos[currentTech][i];t.estado='Finalizada';t.fechaFin=new Date().toLocaleString('es-ES');save();openTech(currentDep,currentTech);} 
 function sendWhatsapp(){
 
     const telefono =
-        (db.tecnicos[currentTech] || {}).telefono || '';
-
-    if(!telefono){
-        alert('El técnico no tiene teléfono asignado');
-        return;
-    }
-
-    const tareas =
-        db.trabajos[currentTech] || [];
-
-    if(tareas.length === 0){
-        alert('No hay tareas asignadas');
-        return;
-    }
-
-    const tarea = tareas[0];
-
-    const mensaje =
-`🏭 MTTO. CAMPOFRIO TORRIJOS
-
-Nueva tarea asignada
-
-Técnico: ${currentTech}
-
-Título:
-${tarea.titulo}
-
-Descripción:
-${tarea.desc}
-
-Por favor revise la aplicación.`;
-
-    const url =
-        'https://wa.me/34' +
-        telefono.replace(/\\D/g,'') +
-        '?text=' +
-        encodeURIComponent(mensaje);
-
-    window.open(url,'_blank');
-}
-adminBtn.onclick=()=>{if(admin){admin=false;draw();home();return;}if(prompt('Contraseña')===PASS){admin=true;draw();home();}};draw();home();
