@@ -21,6 +21,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 
 window.db = db;
@@ -48,41 +49,51 @@ window.readFirestore = async function(){
 
     const snapshot =
         await getDocs(
-            collection(db, "trabajos")
+            collection(db,"trabajos")
         );
+
+    let resultado = "";
 
     snapshot.forEach(documento => {
 
         const data = documento.data();
 
-        alert(
-            JSON.stringify(
-                data,
-                null,
-                2
-            )
-        );
+        resultado +=
+            (data.Tecnico || "") +
+            " | " +
+            (data.Titulo || "") +
+            " | " +
+            (data.Estado || "") +
+            "\n";
 
     });
 
+    alert(
+        resultado || "No hay trabajos"
+    );
+
 };
-window.saveTrabajoFirebase = async function(
+
+window.saveTrabajoFirebase =
+async function(
     tecnico,
     titulo,
     descripcion
 ){
 
     await addDoc(
-        collection(db,"trabajos"),
+        collection(
+            db,
+            "trabajos"
+        ),
         {
             Tecnico: tecnico,
             Titulo: titulo,
             Descripcion: descripcion,
             Estado: "Pendiente",
-            Fecha: new Date().toLocaleString("es-ES")
+            Fecha: new Date()
+                .toLocaleString("es-ES")
         }
     );
 
-    alert("✅ Trabajo guardado en Firestore");
-
-}
+};
