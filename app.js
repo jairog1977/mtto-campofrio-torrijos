@@ -44,30 +44,8 @@ async function saveTask(){
     save();
 
     try{
-try{
 
-    alert("Voy a guardar en Firebase");
-
-    await saveTrabajoFirebase(
-        currentTech,
-        tit.value,
-        des.value
-    );
-
-    console.log(
-        "Trabajo guardado en Firestore"
-    );
-
-}catch(error){
-
-    console.error(
-        "Error Firebase:",
-        error
-    );
-
-    alert(error);
-
-}
+        alert("Voy a guardar en Firebase");
 
         await saveTrabajoFirebase(
             currentTech,
@@ -85,6 +63,8 @@ try{
             "Error Firebase:",
             error
         );
+
+        alert(error);
 
     }
 
@@ -131,10 +111,9 @@ Por favor revise la aplicación.`;
 
     const url =
         'https://wa.me/34' +
-        telefono.replace(/\\D/g,'') +
+        telefono.replace(/\D/g,'') +
         '?text=' +
         encodeURIComponent(mensaje);
 
     window.open(url,'_blank');
 }
-adminBtn.onclick=()=>{if(admin){admin=false;draw();home();return;}if(prompt('Contraseña')===PASS){admin=true;draw();home();}};draw();home();
