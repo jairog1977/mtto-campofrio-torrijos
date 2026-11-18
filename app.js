@@ -25,5 +25,47 @@ function openTech(dep,tec){currentTech=tec;currentDep=dep;let tel=(db.tecnicos[t
 function savePhone(){db.tecnicos[currentTech]={telefono:tel.value};save();openTech(currentDep,currentTech);}function previewSel(e){previewFiles=[];[...e.target.files].forEach(f=>{let r=new FileReader();r.onload=v=>{previewFiles.push({data:v.target.result});renderPrev();};r.readAsDataURL(f);});}
 function renderPrev(){preview.innerHTML='<h4>Vista previa</h4>';previewFiles.forEach((f,i)=>preview.innerHTML+=`<div><img width=80 src='${f.data}'> <button onclick='removePrev(${i})'>🗑️ Quitar</button></div>`);}function removePrev(i){previewFiles.splice(i,1);renderPrev();}
 function saveTask(){if(!db.trabajos[currentTech])db.trabajos[currentTech]=[];db.trabajos[currentTech].unshift({titulo:tit.value,desc:des.value,estado:'Pendiente',adjuntos:previewFiles});save();openTech(currentDep,currentTech);}function finish(i){let t=db.trabajos[currentTech][i];t.estado='Finalizada';t.fechaFin=new Date().toLocaleString('es-ES');save();openTech(currentDep,currentTech);} 
-function sendWhatsapp(){const telefono=(db.tecnicos[currentTech]||{}).telefono||'';if(!telefono){alert('El técnico no tiene teléfono asignado');return;}const tareas=db.trabajos[currentTech]||[];if(tareas.length===0){alert('No hay tareas asignadas');return;}const tarea=tareas[0];const mensaje=`🏭 MTTO. CAMPOFRIO TORRIJOS\n\nNueva tarea asignada\n\nTécnico: ${currentTech}\n\nTítulo:\n${tarea.titulo}\n\nDescripción:\n${tarea.desc}\n\nPor favor revise la aplicación.`;const url='https://wa.me/34'+telefono.replace(/\D/g,'')+'?text='+encodeURIComponent(mensaje);window.open(url,'_blank');}
+function sendWhatsapp(){
+
+    const telefono =
+        (db.tecnicos[currentTech] || {}).telefono || '';
+
+    if(!telefono){
+        alert('El técnico no tiene teléfono asignado');
+        return;
+    }
+
+    const tareas =
+        db.trabajos[currentTech] || [];
+
+    if(tareas.length === 0){
+        alert('No hay tareas asignadas');
+        return;
+    }
+
+    const tarea = tareas[0];
+
+    const mensaje =
+`🏭 MTTO. CAMPOFRIO TORRIJOS
+
+Nueva tarea asignada
+
+Técnico: ${currentTech}
+
+Título:
+${tarea.titulo}
+
+Descripción:
+${tarea.desc}
+
+Por favor revise la aplicación.`;
+
+    const url =
+        'https://wa.me/34' +
+        telefono.replace(/\\D/g,'') +
+        '?text=' +
+        encodeURIComponent(mensaje);
+
+    window.open(url,'_blank');
+}
 adminBtn.onclick=()=>{if(admin){admin=false;draw();home();return;}if(prompt('Contraseña')===PASS){admin=true;draw();home();}};draw();home();
