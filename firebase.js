@@ -21,7 +21,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
 
 window.db = db;
@@ -49,22 +48,21 @@ window.readFirestore = async function(){
 
     const snapshot =
         await getDocs(
-            collection(db,"trabajos")
+            collection(db, "trabajos")
         );
-
-    let resultado = "";
 
     snapshot.forEach(documento => {
 
         const data = documento.data();
 
-        resultado +=
-            JSON.stringify(data) +
-            "\n";
+        alert(
+            JSON.stringify(
+                data,
+                null,
+                2
+            )
+        );
 
     });
 
-    alert(resultado || "No hay trabajos");
-
 };
-
