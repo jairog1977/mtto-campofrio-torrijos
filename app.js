@@ -44,8 +44,30 @@ async function saveTask(){
     save();
 
     try{
+try{
 
-        alert("Voy a guardar en Firebase");
+    alert("Voy a guardar en Firebase");
+
+    await saveTrabajoFirebase(
+        currentTech,
+        tit.value,
+        des.value
+    );
+
+    console.log(
+        "Trabajo guardado en Firestore"
+    );
+
+}catch(error){
+
+    console.error(
+        "Error Firebase:",
+        error
+    );
+
+    alert(error);
+
+}
 
         await saveTrabajoFirebase(
             currentTech,
@@ -64,14 +86,13 @@ async function saveTask(){
             error
         );
 
-        alert(error);
-
     }
 
     openTech(
         currentDep,
         currentTech
     );
+}
 }function finish(i){let t=db.trabajos[currentTech][i];t.estado='Finalizada';t.fechaFin=new Date().toLocaleString('es-ES');save();openTech(currentDep,currentTech);} 
 function sendWhatsapp(){
 
@@ -110,9 +131,10 @@ Por favor revise la aplicación.`;
 
     const url =
         'https://wa.me/34' +
-        telefono.replace(/\D/g,'') +
+        telefono.replace(/\\D/g,'') +
         '?text=' +
         encodeURIComponent(mensaje);
 
     window.open(url,'_blank');
 }
+adminBtn.onclick=()=>{if(admin){admin=false;draw();home();return;}if(prompt('Contraseña')===PASS){admin=true;draw();home();}};draw();home();
