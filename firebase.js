@@ -43,7 +43,7 @@ window.testFirebase = async function(){
 
     alert("✅ Documento guardado en Firestore");
 
-}
+};
 
 window.readFirestore = async function(){
 
@@ -54,20 +54,17 @@ window.readFirestore = async function(){
 
     let resultado = "";
 
-    snapshot.forEach(doc => {
+    snapshot.forEach(documento => {
 
-        const data = doc.data();
+        const data = documento.data();
 
         resultado +=
-            data.Tecnico +
-            " | " +
-            data.Titulo +
-            " | " +
-            data.Estado +
-            "\\n";
+            JSON.stringify(data) +
+            "\n";
 
     });
 
     alert(resultado || "No hay trabajos");
 
-}
+};
+
