@@ -66,3 +66,23 @@ window.readFirestore = async function(){
     });
 
 };
+window.saveTrabajoFirebase = async function(
+    tecnico,
+    titulo,
+    descripcion
+){
+
+    await addDoc(
+        collection(db,"trabajos"),
+        {
+            Tecnico: tecnico,
+            Titulo: titulo,
+            Descripcion: descripcion,
+            Estado: "Pendiente",
+            Fecha: new Date().toLocaleString("es-ES")
+        }
+    );
+
+    alert("✅ Trabajo guardado en Firestore");
+
+}
