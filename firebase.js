@@ -30,3 +30,16 @@ window.addDoc = addDoc;
 window.getDocs = getDocs;
 window.updateDoc = updateDoc;
 window.doc = doc;
+window.testFirebase = async function(){
+
+    const pruebaRef =
+        collection(db, "pruebas");
+
+    await addDoc(pruebaRef, {
+        texto: "Firebase conectado correctamente",
+        fecha: new Date().toISOString()
+    });
+
+    alert("✅ Documento guardado en Firestore");
+
+}
