@@ -59,11 +59,11 @@ window.readFirestore = async function(){
         const data = doc.data();
 
         resultado +=
-            data.tecnico +
+            data.Tecnico +
             " | " +
-            data.titulo +
+            data.Titulo +
             " | " +
-            data.estado +
+            data.Estado +
             "\\n";
 
     });
