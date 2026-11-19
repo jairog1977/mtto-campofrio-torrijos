@@ -183,6 +183,8 @@ Por favor revise la aplicación.`;
 }
 async function deleteTask(index){
 
+    alert("Entrando en deleteTask");
+
     if(
         !confirm(
             "¿Deseas eliminar esta tarea?"
@@ -200,6 +202,8 @@ async function deleteTask(index){
 
         const tarea =
             tareas[index];
+
+        console.log("Tarea a borrar:", tarea);
 
         const snapshot =
             await getDocs(
@@ -228,15 +232,22 @@ async function deleteTask(index){
                         )
                     );
 
+                    console.log(
+                        "Documento eliminado:",
+                        documento.id
+                    );
+
                 }
 
             }
         );
 
-        openTech(
-            currentDep,
-            currentTech
-        );
+        setTimeout(()=>{
+            openTech(
+                currentDep,
+                currentTech
+            );
+        },1000);
 
     }catch(error){
 
