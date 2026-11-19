@@ -136,3 +136,4 @@ async function(tecnico){
 };
 
 console.log("firebase version nueva");
+alert("Firebase v2 cargado");
