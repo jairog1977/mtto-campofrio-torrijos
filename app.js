@@ -44,9 +44,15 @@ try{
     const estadoActual =
         t.Estado || t.estado;
 
+    console.log(
+        "Estado tarea:",
+        estadoActual,
+        t
+    );
+
     h+=`
     <div class='card ${
-        estadoActual==='Finalizada'
+        estadoActual === 'Finalizada'
             ? 'fin'
             : 'pend'
     }'>
@@ -62,26 +68,27 @@ try{
     <p>
         ${estadoActual}
     </p>
-    `;if(t.fechaFin)h+='<p>'+t.fechaFin+'</p>';(t.adjuntos||[]).forEach(a=>h+=`<img class=thumb src='${a.data}'>`);const estadoActual =
-    t.Estado || t.estado;
+    `;
 
-console.log(
-    "Estado tarea:",
-    estadoActual,
-    t
-);
+    if(t.fechaFin)
+        h += '<p>' + t.fechaFin + '</p>';
 
-if(
-    estadoActual &&
-    estadoActual.toString().trim() ===
-    'Pendiente'
-){
-    h+=`
-    <button onclick='finish(${i})'>
-        ✅ Marcar como finalizada
-    </button>`;
+    (t.adjuntos || []).forEach(a =>
+        h += `<img class=thumb src='${a.data}'>`
+    );
 
-}
+    if(estadoActual === "Pendiente"){
+
+        h += `
+        <button onclick='finish(${i})'>
+            ✅ Marcar como finalizada
+        </button>`;
+
+    }
+
+    h += '</div>';
+
+});
 
 if(admin)
     h+=` <button onclick='deleteTask(${i})'>
