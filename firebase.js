@@ -185,3 +185,51 @@ async function(
     );
 
 };
+window.finalizarTrabajoFirebase =
+async function(
+    tecnico,
+    titulo
+){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "trabajos"
+            )
+        );
+
+    snapshot.forEach(
+        async documento => {
+
+            const data =
+                documento.data();
+
+            if(
+                data.Tecnico === tecnico &&
+                data.Titulo === titulo
+            ){
+
+                await updateDoc(
+                    doc(
+                        db,
+                        "trabajos",
+                        documento.id
+                    ),
+                    {
+                        Estado:
+                            "Finalizada",
+                        FechaFin:
+                            new Date()
+                                .toLocaleString(
+                                    "es-ES"
+                                )
+                    }
+                );
+
+            }
+
+        }
+    );
+
+};
