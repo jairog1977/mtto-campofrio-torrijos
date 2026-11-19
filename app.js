@@ -44,12 +44,6 @@ try{
     const estadoActual =
         t.Estado || t.estado;
 
-    console.log(
-        "Estado tarea:",
-        estadoActual,
-        t
-    );
-
     h+=`
     <div class='card ${
         estadoActual === 'Finalizada'
