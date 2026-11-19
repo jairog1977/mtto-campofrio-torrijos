@@ -131,4 +131,3 @@ async function(tecnico){
     return trabajos;
 
 };
-};
