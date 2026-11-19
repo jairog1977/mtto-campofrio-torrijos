@@ -181,7 +181,7 @@ Por favor revise la aplicación.`;
 
     window.open(url,'_blank');
 }
-function deleteTask(index){
+async function deleteTask(index){
 
     if(
         !confirm(
@@ -191,23 +191,61 @@ function deleteTask(index){
         return;
     }
 
-    if(
-        !db.trabajos[currentTech]
-    ){
-        return;
+    try{
+
+        const tareas =
+            await getTrabajosTecnico(
+                currentTech
+            );
+
+        const tarea =
+            tareas[index];
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "trabajos"
+                )
+            );
+
+        snapshot.forEach(
+            async documento => {
+
+                const data =
+                    documento.data();
+
+                if(
+                    data.Tecnico === currentTech &&
+                    data.Titulo === tarea.Titulo
+                ){
+
+                    await deleteDoc(
+                        doc(
+                            db,
+                            "trabajos",
+                            documento.id
+                        )
+                    );
+
+                }
+
+            }
+        );
+
+        openTech(
+            currentDep,
+            currentTech
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Error eliminando tarea"
+        );
+
     }
 
-    db.trabajos[currentTech].splice(
-        index,
-        1
-    );
-
-    save();
-
-    openTech(
-        currentDep,
-        currentTech
-    );
-
 }
-adminBtn.onclick=()=>{if(admin){admin=false;draw();home();return;}if(prompt('Contraseña')===PASS){admin=true;draw();home();}};draw();home();
