@@ -7,6 +7,7 @@ import {
   addDoc,
   getDocs,
   updateDoc,
+  deleteDoc,
   doc
 } from
 "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
@@ -29,7 +30,7 @@ window.addDoc = addDoc;
 window.getDocs = getDocs;
 window.updateDoc = updateDoc;
 window.doc = doc;
-
+window.deleteDoc = deleteDoc;
 /* ==========================
    PRUEBA DE ESCRITURA
 ========================== */
@@ -104,6 +105,131 @@ async function(
             Estado: "Pendiente",
             Fecha: new Date()
                 .toLocaleString("es-ES")
+        }
+    );
+
+};
+
+window.getTrabajosTecnico =
+async function(tecnico){
+
+    const snapshot =
+        await getDocs(
+            collection(db,"trabajos")
+        );
+
+    let trabajos = [];
+
+    snapshot.forEach(documento => {
+
+        const data = documento.data();
+
+        if(data.Tecnico === tecnico){
+
+            trabajos.push(data);
+
+        }
+
+    });
+
+    return trabajos;
+
+};
+
+console.log("firebase version nueva");
+alert("Firebase v2 cargado");
+window.finalizarTrabajoFirebase =
+async function(
+    tecnico,
+    titulo
+){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "trabajos"
+            )
+        );
+
+    snapshot.forEach(
+        async documento => {
+
+            const data =
+                documento.data();
+
+            if(
+                data.Tecnico === tecnico &&
+                data.Titulo === titulo
+            ){
+
+                await updateDoc(
+                    doc(
+                        db,
+                        "trabajos",
+                        documento.id
+                    ),
+                    {
+                        Estado:
+                            "Finalizada",
+                        FechaFin:
+                            new Date()
+                            .toLocaleString(
+                                "es-ES"
+                            )
+                    }
+                );
+
+            }
+
+        }
+    );
+
+};
+window.finalizarTrabajoFirebase =
+async function(
+    tecnico,
+    titulo
+){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "trabajos"
+            )
+        );
+
+    snapshot.forEach(
+        async documento => {
+
+            const data =
+                documento.data();
+
+            if(
+                data.Tecnico === tecnico &&
+                data.Titulo === titulo
+            ){
+
+                await updateDoc(
+                    doc(
+                        db,
+                        "trabajos",
+                        documento.id
+                    ),
+                    {
+                        Estado:
+                            "Finalizada",
+                        FechaFin:
+                            new Date()
+                                .toLocaleString(
+                                    "es-ES"
+                                )
+                    }
+                );
+
+            }
+
         }
     );
 
