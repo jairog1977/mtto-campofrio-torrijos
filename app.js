@@ -39,13 +39,40 @@ try{
     tareas =
         db.trabajos[tec] || [];
 
-}let h=`<h1>${tec}</h1><div class=card><b>Departamento:</b> ${dep}<br>📱 ${tel||'Sin teléfono'}`;if(tel&&admin){h+=`<br><button onclick="sendWhatsapp()">💬 WhatsApp</button>`;}h+='</div>';tareas.forEach((t,i)=>{h+=`<div class='card ${t.estado==='Finalizada'?'fin':'pend'}'><h3>${t.Titulo || t.titulo}</h3>
-<p>${t.Descripcion || t.desc || ''}</p>
-<p>${t.Estado || t.estado}</p>
-`;if(t.fechaFin)h+='<p>'+t.fechaFin+'</p>';(t.adjuntos||[]).forEach(a=>h+=`<img class=thumb src='${a.data}'>`);if(t.estado==='Pendiente')
-    h+=`<button onclick='finish(${i})'>
-            ✅ Marcar como finalizada
-        </button>`;
+}let h=`<h1>${tec}</h1><div class=card><b>Departamento:</b> ${dep}<br>📱 ${tel||'Sin teléfono'}`;if(tel&&admin){h+=`<br><button onclick="sendWhatsapp()">💬 WhatsApp</button>`;}h+='</div>';tareas.forEach((t,i)=>{
+
+    const estadoActual =
+        t.Estado || t.estado;
+
+    h+=`
+    <div class='card ${
+        estadoActual==='Finalizada'
+            ? 'fin'
+            : 'pend'
+    }'>
+
+    <h3>
+        ${t.Titulo || t.titulo}
+    </h3>
+
+    <p>
+        ${t.Descripcion || t.desc || ''}
+    </p>
+
+    <p>
+        ${estadoActual}
+    </p>
+    `;if(t.fechaFin)h+='<p>'+t.fechaFin+'</p>';(t.adjuntos||[]).forEach(a=>h+=`<img class=thumb src='${a.data}'>`);const estadoActual =
+    t.Estado || t.estado;
+
+if(estadoActual === 'Pendiente'){
+
+    h+=`
+    <button onclick='finish(${i})'>
+        ✅ Marcar como finalizada
+    </button>`;
+
+}
 
 if(admin)
     h+=` <button onclick='deleteTask(${i})'>
