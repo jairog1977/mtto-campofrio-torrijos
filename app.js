@@ -39,7 +39,14 @@ try{
     tareas =
         db.trabajos[tec] || [];
 
-}let h=`<h1>${tec}</h1><div class=card><b>Departamento:</b> ${dep}<br>📱 ${tel||'Sin teléfono'}`;if(tel&&admin){h+=`<br><button onclick="sendWhatsapp()">💬 WhatsApp</button>`;}h+='</div>';tareas.forEach((t,i)=>{
+}
+
+let h = `<h1>${tec}</h1>
+<div class=card>
+<b>Departamento:</b> ${dep}
+<br>
+📱 ${tel || 'Sin teléfono'}
+`;if(tel&&admin){h+=`<br><button onclick="sendWhatsapp()">💬 WhatsApp</button>`;}h+='</div>';tareas.forEach((t,i)=>{
 
     const estadoActual =
         t.Estado || t.estado;
