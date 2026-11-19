@@ -58,12 +58,12 @@ function saveTask(){if(!db.trabajos[currentTech])db.trabajos[currentTech]=[];db.
     let t =
         db.trabajos[currentTech][i];
 
-    t.estado = 'Finalizada';
+    t.estado =
+        "Finalizada";
 
     t.fechaFin =
-        new Date().toLocaleString(
-            'es-ES'
-        );
+        new Date()
+            .toLocaleString("es-ES");
 
     save();
 
@@ -71,7 +71,7 @@ function saveTask(){if(!db.trabajos[currentTech])db.trabajos[currentTech]=[];db.
 
         await finalizarTrabajoFirebase(
             currentTech,
-            t.titulo || t.Titulo
+            t.Titulo || t.titulo
         );
 
         console.log(
@@ -92,7 +92,7 @@ function saveTask(){if(!db.trabajos[currentTech])db.trabajos[currentTech]=[];db.
         currentTech
     );
 
-} 
+}
 function sendWhatsapp(){const telefono=(db.tecnicos[currentTech]||{}).telefono||'';if(!telefono){alert('El técnico no tiene teléfono asignado');return;}const tareas=db.trabajos[currentTech]||[];if(tareas.length===0){alert('No hay tareas asignadas');return;}const tarea=tareas[0];const mensaje=`🏭 MTTO. CAMPOFRIO TORRIJOS\n\nNueva tarea asignada\n\nTécnico: ${currentTech}\n\nTítulo:\n${tarea.titulo}\n\nDescripción:\n${tarea.desc}\n\nPor favor revise la aplicación.`;const url='https://wa.me/34'+telefono.replace(/\D/g,'')+'?text='+encodeURIComponent(mensaje);window.open(url,'_blank');}
 function sendWhatsapp(){
 
