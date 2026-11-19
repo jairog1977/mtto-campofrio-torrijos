@@ -65,8 +65,17 @@ try{
     `;if(t.fechaFin)h+='<p>'+t.fechaFin+'</p>';(t.adjuntos||[]).forEach(a=>h+=`<img class=thumb src='${a.data}'>`);const estadoActual =
     t.Estado || t.estado;
 
-if(estadoActual === 'Pendiente'){
+console.log(
+    "Estado tarea:",
+    estadoActual,
+    t
+);
 
+if(
+    estadoActual &&
+    estadoActual.toString().trim() ===
+    'Pendiente'
+){
     h+=`
     <button onclick='finish(${i})'>
         ✅ Marcar como finalizada
