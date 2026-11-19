@@ -106,6 +106,9 @@ async function(
                 .toLocaleString("es-ES")
         }
     );
+
+};
+
 window.getTrabajosTecnico =
 async function(tecnico){
 
