@@ -108,32 +108,3 @@ async function(
     );
 
 };
-
-window.getTrabajosTecnico =
-async function(tecnico){
-
-    const snapshot =
-        await getDocs(
-            collection(db,"trabajos")
-        );
-
-    let trabajos = [];
-
-    snapshot.forEach(documento => {
-
-        const data = documento.data();
-
-        if(data.Tecnico === tecnico){
-
-            trabajos.push(data);
-
-        }
-
-    });
-
-    return trabajos;
-
-};
-
-console.log("firebase version nueva");
-alert("Firebase v2 cargado");
