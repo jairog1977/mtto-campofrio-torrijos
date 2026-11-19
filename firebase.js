@@ -130,4 +130,6 @@ async function(tecnico){
 
     return trabajos;
 
+
 };
+console.log("firebase version nueva");
