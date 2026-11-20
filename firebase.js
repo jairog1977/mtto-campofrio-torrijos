@@ -148,3 +148,34 @@ async function(
 console.log(
     "Firebase cargado correctamente"
 );
+window.verTrabajosFirebase =
+async function(){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "trabajos"
+            )
+        );
+
+    let texto = "";
+
+    snapshot.forEach(documento => {
+
+        const data =
+            documento.data();
+
+        texto +=
+            data.Tecnico +
+            " | " +
+            data.Titulo +
+            " | " +
+            data.Estado +
+            "\n";
+
+    });
+
+    alert(texto);
+
+};
