@@ -13,11 +13,13 @@ async function saveTask(){
     }
 
     db.trabajos[currentTech].unshift({
+
         titulo: tit.value,
         desc: des.value,
         prioridad: pri.value,
         estado: 'Pendiente',
         adjuntos: previewFiles
+
     });
 
     previewFiles=[];
@@ -27,9 +29,13 @@ async function saveTask(){
     try{
 
         await saveTrabajoFirebase(
+
             currentTech,
+
             tit.value,
+
             des.value
+
         );
 
         console.log(
