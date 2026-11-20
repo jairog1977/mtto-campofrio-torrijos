@@ -13,11 +13,13 @@ async function saveTask(){
     }
 
     db.trabajos[currentTech].unshift({
+
         titulo: tit.value,
         desc: des.value,
         prioridad: pri.value,
         estado: 'Pendiente',
         adjuntos: previewFiles
+
     });
 
     previewFiles=[];
@@ -26,25 +28,21 @@ async function saveTask(){
 
     try{
 
-    alert("Voy a guardar en Firebase");
+        await saveTrabajoFirebase(
 
-    await saveTrabajoFirebase(
-        currentTech,
-        tit.value,
-        des.value
-    );
+            currentTech,
 
-    alert("Guardado en Firebase OK");
+            tit.value,
 
-    console.log(
-        "Trabajo guardado en Firebase"
-    );
+            des.value
 
-}catch(error){
+        );
 
-    alert(
-        "ERROR FIREBASE: " + error
-    );
+        console.log(
+            "Trabajo guardado en Firebase"
+        );
+
+    }catch(error){
 
         console.error(
             "Error Firebase:",
