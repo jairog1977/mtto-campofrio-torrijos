@@ -2,23 +2,23 @@ import { initializeApp } from
 "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  updateDoc,
-  deleteDoc,
-  doc
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    updateDoc,
+    deleteDoc,
+    doc
 } from
 "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBNzYJtt646Ve_7I1tChjD5PkqfdqI6UcM",
-  authDomain: "mtto-campofrio-torrijos.firebaseapp.com",
-  projectId: "mtto-campofrio-torrijos",
-  storageBucket: "mtto-campofrio-torrijos.firebasestorage.app",
-  messagingSenderId: "450785079641",
-  appId: "1:450785079641:web:8feb07fec3a22126f25c48"
+    apiKey: "AIzaSyBNzYJtt646Ve_7I1tChjD5PkqfdqI6UcM",
+    authDomain: "mtto-campofrio-torrijos.firebaseapp.com",
+    projectId: "mtto-campofrio-torrijos",
+    storageBucket: "mtto-campofrio-torrijos.firebasestorage.app",
+    messagingSenderId: "450785079641",
+    appId: "1:450785079641:web:8feb07fec3a22126f25c48"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -33,7 +33,9 @@ window.updateDoc = updateDoc;
 window.deleteDoc = deleteDoc;
 window.doc = doc;
 
-/* GUARDAR TRABAJO */
+/* ==================================
+   GUARDAR TRABAJO EN FIREBASE
+================================== */
 
 window.saveTrabajoFirebase =
 async function(
@@ -59,7 +61,9 @@ async function(
 
 };
 
-/* LEER TRABAJOS POR TECNICO */
+/* ==================================
+   OBTENER TRABAJOS POR TÉCNICO
+================================== */
 
 window.getTrabajosTecnico =
 async function(tecnico){
@@ -93,7 +97,9 @@ async function(tecnico){
 
 };
 
-/* FINALIZAR TRABAJO */
+/* ==================================
+   FINALIZAR TRABAJO
+================================== */
 
 window.finalizarTrabajoFirebase =
 async function(
@@ -127,14 +133,11 @@ async function(
                         documento.id
                     ),
                     {
-                        Estado:
-                            "Finalizada",
+                        Estado: "Finalizada",
 
                         FechaFin:
                             new Date()
-                                .toLocaleString(
-                                    "es-ES"
-                                )
+                                .toLocaleString("es-ES")
                     }
                 );
 
@@ -145,6 +148,25 @@ async function(
 
 };
 
-console.log(
-    "Firebase cargado correctamente"
-);
+/* ==================================
+   ELIMINAR TRABAJO
+================================== */
+
+window.eliminarTrabajoFirebase =
+async function(
+    tecnico,
+    titulo
+){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "trabajos"
+            )
+        );
+
+    snapshot.forEach(
+        async documento => {
+
+            const 
