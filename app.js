@@ -26,17 +26,25 @@ async function saveTask(){
 
     try{
 
-        await saveTrabajoFirebase(
-            currentTech,
-            tit.value,
-            des.value
-        );
+    alert("Voy a guardar en Firebase");
 
-        console.log(
-            "Trabajo guardado en Firebase"
-        );
+    await saveTrabajoFirebase(
+        currentTech,
+        tit.value,
+        des.value
+    );
 
-    }catch(error){
+    alert("Guardado en Firebase OK");
+
+    console.log(
+        "Trabajo guardado en Firebase"
+    );
+
+}catch(error){
+
+    alert(
+        "ERROR FIREBASE: " + error
+    );
 
         console.error(
             "Error Firebase:",
