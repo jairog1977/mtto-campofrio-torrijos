@@ -23,9 +23,7 @@ async function saveTask(){
     });
 
     previewFiles=[];
-
-    save();
-
+@@ -27,9 +29,13 @@
     try{
 
         await saveTrabajoFirebase(
@@ -39,20 +37,7 @@ async function saveTask(){
         );
 
         console.log(
-            "Trabajo guardado en Firebase"
-        );
-
-    }catch(error){
-
-        console.error(
-            "Error Firebase:",
-            error
-        );
-
-    }
-
-    openTech(
-        currentDep,
+@@ -50,4 +56,6 @@
         currentTech
     );
 
