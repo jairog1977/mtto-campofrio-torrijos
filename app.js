@@ -13,11 +13,13 @@ async function saveTask(){
     }
 
     db.trabajos[currentTech].unshift({
+
         titulo: tit.value,
         desc: des.value,
         prioridad: pri.value,
         estado: 'Pendiente',
         adjuntos: previewFiles
+
     });
 
     previewFiles=[];
@@ -27,9 +29,13 @@ async function saveTask(){
     try{
 
         await saveTrabajoFirebase(
+
             currentTech,
+
             tit.value,
+
             des.value
+
         );
 
         console.log(
@@ -49,5 +55,7 @@ async function saveTask(){
         currentDep,
         currentTech
     );
+
+}
 
 }function finishTask(i){let t=db.trabajos[currentTech][i];t.estado='Finalizada';t.fechaFin=new Date().toLocaleString('es-ES');save();openTech(currentDep,currentTech);}function delTask(i){db.trabajos[currentTech].splice(i,1);save();openTech(currentDep,currentTech);}document.getElementById('adminBtn').onclick=()=>{if(admin){admin=false;drawMenu();home();return;}if(prompt('Contraseña')===PASS){admin=true;drawMenu();home();}};drawMenu();home();
