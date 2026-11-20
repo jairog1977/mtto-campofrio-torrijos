@@ -6,4 +6,48 @@ function openTech(dep,tec){currentTech=tec;currentDep=dep;const tareas=db.trabaj
 function previewSelected(e){previewFiles=[];let box=document.getElementById('preview');box.innerHTML='<h4>Vista previa</h4>';[...e.target.files].forEach((f,idx)=>{let r=new FileReader();r.onload=v=>{previewFiles.push({nombre:f.name,tipo:f.type,data:v.target.result});renderPreview();};r.readAsDataURL(f);});}
 function renderPreview(){let box=document.getElementById('preview');box.innerHTML='<h4>Vista previa</h4>';previewFiles.forEach((f,i)=>{box.innerHTML+=`<div><img src='${f.data}' width='90'> <button type='button' onclick='removePreview(${i})'>🗑️ Quitar</button></div>`;});}
 function removePreview(i){previewFiles.splice(i,1);renderPreview();}
-function saveTask(){if(!db.trabajos[currentTech])db.trabajos[currentTech]=[];db.trabajos[currentTech].unshift({titulo:tit.value,desc:des.value,prioridad:pri.value,estado:'Pendiente',adjuntos:previewFiles});previewFiles=[];save();openTech(currentDep,currentTech);}function finishTask(i){let t=db.trabajos[currentTech][i];t.estado='Finalizada';t.fechaFin=new Date().toLocaleString('es-ES');save();openTech(currentDep,currentTech);}function delTask(i){db.trabajos[currentTech].splice(i,1);save();openTech(currentDep,currentTech);}document.getElementById('adminBtn').onclick=()=>{if(admin){admin=false;drawMenu();home();return;}if(prompt('Contraseña')===PASS){admin=true;drawMenu();home();}};drawMenu();home();
+async function saveTask(){
+
+    if(!db.trabajos[currentTech]){
+        db.trabajos[currentTech]=[];
+    }
+
+    db.trabajos[currentTech].unshift({
+        titulo: tit.value,
+        desc: des.value,
+        prioridad: pri.value,
+        estado: 'Pendiente',
+        adjuntos: previewFiles
+    });
+
+    previewFiles=[];
+
+    save();
+
+    try{
+
+        await saveTrabajoFirebase(
+            currentTech,
+            tit.value,
+            des.value
+        );
+
+        console.log(
+            "Trabajo guardado en Firebase"
+        );
+
+    }catch(error){
+
+        console.error(
+            "Error Firebase:",
+            error
+        );
+
+    }
+
+    openTech(
+        currentDep,
+        currentTech
+    );
+
+}function finishTask(i){let t=db.trabajos[currentTech][i];t.estado='Finalizada';t.fechaFin=new Date().toLocaleString('es-ES');save();openTech(currentDep,currentTech);}function delTask(i){db.trabajos[currentTech].splice(i,1);save();openTech(currentDep,currentTech);}document.getElementById('adminBtn').onclick=()=>{if(admin){admin=false;drawMenu();home();return;}if(prompt('Contraseña')===PASS){admin=true;drawMenu();home();}};drawMenu();home();
