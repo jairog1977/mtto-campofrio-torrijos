@@ -48,6 +48,44 @@ async function saveTask(){
         currentDep,
         currentTech
     );
-}
 
-}function finishTask(i){let t=db.trabajos[currentTech][i];t.estado='Finalizada';t.fechaFin=new Date().toLocaleString('es-ES');save();openTech(currentDep,currentTech);}function delTask(i){db.trabajos[currentTech].splice(i,1);save();openTech(currentDep,currentTech);}document.getElementById('adminBtn').onclick=()=>{if(admin){admin=false;drawMenu();home();return;}if(prompt('Contraseña')===PASS){admin=true;drawMenu();home();}};drawMenu();home();
+}async function finishTask(i){
+
+    let t =
+        db.trabajos[currentTech][i];
+
+    t.estado =
+        'Finalizada';
+
+    t.fechaFin =
+        new Date()
+            .toLocaleString('es-ES');
+
+    save();
+
+    try{
+
+        await finalizarTrabajoFirebase(
+            currentTech,
+            t.titulo
+        );
+
+        console.log(
+            "Trabajo finalizado en Firebase"
+        );
+
+    }catch(error){
+
+        console.error(
+            "Error Firebase:",
+            error
+        );
+
+    }
+
+    openTech(
+        currentDep,
+        currentTech
+    );
+
+}
